@@ -20,3 +20,7 @@ books.belongsToMany(authors, { through: booksauthors })
 
 genres.belongsToMany(books, { through: booksgenres })
 books.belongsToMany(genres, { through: booksgenres })
+
+module.exports = {
+  authors, genres, books, booksauthors, booksgenres
+}
