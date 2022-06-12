@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const {
   authors, genres, books
 } = require('../models/index')
@@ -22,7 +23,7 @@ const getAuthorsNovelsGenresByAuthorIdPartialMatch = async (request, response) =
 
     const authorsNovelsGenres = await authors.findOne({
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-      where: { 
+      where: {
         id: { [models.Op.like]: `%${id}%` }
       },
       include: [{ model: books, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }, include: [{ model: genres }], }]
@@ -77,12 +78,15 @@ const getAllNovels = async (request, response) => {
   }
 }
 
-const getNovelByIdWithGenresAuthors = async (request, response) => {
+const getNovelByIdWithGenresAuthorsPartialMatch = async (request, response) => {
   try {
     const { id } = request.params
 
     const novelsAuthorsGenres = await books.findOne({
-      where: { id },
+      attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+      where: {
+        id: { [models.Op.like]: `%${id}%` }
+      },
       include: [{ model: genres }, { model: authors }]
     })
 
@@ -99,5 +103,5 @@ module.exports = {
   getAllGenres,
   getGenreAuthorsNovelsByGenreId,
   getAllNovels,
-  getNovelByIdWithGenresAuthors
+  getNovelByIdWithGenresAuthorsPartialMatch
 }

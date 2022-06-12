@@ -1,18 +1,18 @@
 const express = require('express')
 const {
   getAllAuthors,
-  getAuthorsNovelsGenresByAuthorId,
+  getAuthorsNovelsGenresByAuthorIdPartialMatch,
   getAllGenres,
   getGenreAuthorsNovelsByGenreId,
   getAllNovels,
-  getNovelByIdWithGenresAuthors
+  getNovelByIdWithGenresAuthorsPartialMatch
 } = require('./controllers/books')
 
 const app = express()
 
 app.get('/authors', getAllAuthors)
 
-app.get('/authors/:id', getAuthorsNovelsGenresByAuthorId)
+app.get('/authors/:id', getAuthorsNovelsGenresByAuthorIdPartialMatch)
 
 app.get('/genres', getAllGenres)
 
@@ -20,7 +20,7 @@ app.get('/genres/:id', getGenreAuthorsNovelsByGenreId)
 
 app.get('/books', getAllNovels)
 
-app.get('/books/:id', getNovelByIdWithGenresAuthors)
+app.get('/books/:id', getNovelByIdWithGenresAuthorsPartialMatch)
 
 app.listen(1337, () => {
   // eslint-disable-next-line no-console
