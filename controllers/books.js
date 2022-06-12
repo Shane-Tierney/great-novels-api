@@ -1,6 +1,7 @@
 const {
   authors, genres, books
 } = require('../models/index')
+const models = require('../models/index')
 
 const getAllAuthors = async (request, response) => {
   try {
@@ -15,13 +16,16 @@ const getAllAuthors = async (request, response) => {
   }
 }
 
-const getAuthorsNovelsGenresByAuthorId = async (request, response) => {
+const getAuthorsNovelsGenresByAuthorIdPartialMatch = async (request, response) => {
   try {
     const { id } = request.params
 
     const authorsNovelsGenres = await authors.findOne({
-      where: { id },
-      include: [{ model: books, include: [{ model: genres }] }]
+      attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+      where: { 
+        id: { [models.Op.like]: `%${id}%` }
+      },
+      include: [{ model: books, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }, include: [{ model: genres }], }]
     })
 
     return response.send(authorsNovelsGenres)
@@ -91,7 +95,7 @@ const getNovelByIdWithGenresAuthors = async (request, response) => {
 
 module.exports = {
   getAllAuthors,
-  getAuthorsNovelsGenresByAuthorId,
+  getAuthorsNovelsGenresByAuthorIdPartialMatch,
   getAllGenres,
   getGenreAuthorsNovelsByGenreId,
   getAllNovels,
