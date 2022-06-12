@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 const {
-  authors, genres, books
+  authors, genres, books, booksauthors, booksgenres
 } = require('../models/index')
 const models = require('../models/index')
 
@@ -97,11 +97,39 @@ const getNovelByIdWithGenresAuthorsPartialMatch = async (request, response) => {
   }
 }
 
+const getAllBooksAuthors = async (request, response) => {
+  try {
+    const listOfAuthors = await booksauthors.findAll()
+
+    return response.send(listOfAuthors)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+
+    return response.sendStatus(500)
+  }
+}
+
+const getAllBooksGenres = async (request, response) => {
+  try {
+    const listOfAuthors = await booksgenres.findAll()
+
+    return response.send(listOfAuthors)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+
+    return response.sendStatus(500)
+  }
+}
+
 module.exports = {
   getAllAuthors,
   getAuthorsNovelsGenresByAuthorIdPartialMatch,
   getAllGenres,
   getGenreAuthorsNovelsByGenreId,
   getAllNovels,
-  getNovelByIdWithGenresAuthorsPartialMatch
+  getNovelByIdWithGenresAuthorsPartialMatch,
+  getAllBooksAuthors,
+  getAllBooksGenres
 }

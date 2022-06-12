@@ -5,7 +5,9 @@ const {
   getAllGenres,
   getGenreAuthorsNovelsByGenreId,
   getAllNovels,
-  getNovelByIdWithGenresAuthorsPartialMatch
+  getNovelByIdWithGenresAuthorsPartialMatch,
+  getAllBooksAuthors,
+  getAllBooksGenres
 } = require('./controllers/books')
 
 const app = express()
@@ -21,6 +23,10 @@ app.get('/genres/:id', getGenreAuthorsNovelsByGenreId)
 app.get('/books', getAllNovels)
 
 app.get('/books/:id', getNovelByIdWithGenresAuthorsPartialMatch)
+
+app.get('/booksAuthors', getAllBooksAuthors)
+
+app.get('/booksGenres', getAllBooksGenres)
 
 app.listen(1337, () => {
   // eslint-disable-next-line no-console
