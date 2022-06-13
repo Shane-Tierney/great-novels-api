@@ -25,8 +25,8 @@ const getAuthorsNovelsGenresByAuthorIdPartialMatch = async (request, response) =
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
       where: {
         [Sequelize.Op.or]: [
-          {name: { [Sequelize.Op.like]: `%${searchTerm}%` }},
-          {id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
+          { name: { [Sequelize.Op.like]: `%${searchTerm}%` } },
+          { id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
         ]
       },
       include: [{ model: books, include: [{ model: genres }], }]
@@ -89,8 +89,8 @@ const getNovelByIdWithGenresAuthorsPartialMatch = async (request, response) => {
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
       where: {
         [Sequelize.Op.or]: [
-          {title: { [Sequelize.Op.like]: `%${searchTerm}%` }},
-          {id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
+          { title: { [Sequelize.Op.like]: `%${searchTerm}%` } },
+          { id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
         ]
       },
       include: [{ model: genres }, { model: authors }]
