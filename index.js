@@ -14,7 +14,7 @@ const app = express()
 
 app.get('/authors', getAllAuthors)
 
-app.get('/authors/:id', getAuthorsNovelsGenresByAuthorIdPartialMatch)
+app.get('/authors/:searchTerm', getAuthorsNovelsGenresByAuthorIdPartialMatch)
 
 app.get('/genres', getAllGenres)
 
@@ -22,7 +22,7 @@ app.get('/genres/:id', getGenreAuthorsNovelsByGenreId)
 
 app.get('/books', getAllNovels)
 
-app.get('/books/:id', getNovelByIdWithGenresAuthorsPartialMatch)
+app.get('/books/:searchTerm', getNovelByIdWithGenresAuthorsPartialMatch)
 
 app.get('/booksAuthors', getAllBooksAuthors)
 

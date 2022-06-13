@@ -2,7 +2,7 @@
 const {
   authors, genres, books, booksauthors, booksgenres
 } = require('../models/index')
-const models = require('../models/index')
+const Sequelize = require('sequelize')
 
 const getAllAuthors = async (request, response) => {
   try {
@@ -19,14 +19,17 @@ const getAllAuthors = async (request, response) => {
 
 const getAuthorsNovelsGenresByAuthorIdPartialMatch = async (request, response) => {
   try {
-    const { id } = request.params
+    const { searchTerm } = request.params
 
     const authorsNovelsGenres = await authors.findOne({
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
       where: {
-        id: { [models.Op.like]: `%${id}%` }
+        [Sequelize.Op.or]: [
+          {name: { [Sequelize.Op.like]: `%${searchTerm}%` }},
+          {id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
+        ]
       },
-      include: [{ model: books, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }, include: [{ model: genres }], }]
+      include: [{ model: books, include: [{ model: genres }], }]
     })
 
     return response.send(authorsNovelsGenres)
@@ -80,12 +83,12 @@ const getAllNovels = async (request, response) => {
 
 const getNovelByIdWithGenresAuthorsPartialMatch = async (request, response) => {
   try {
-    const { id } = request.params
+    const { name } = request.params
 
     const novelsAuthorsGenres = await books.findOne({
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
       where: {
-        id: { [models.Op.like]: `%${id}%` }
+        id: { [Sequelize.Op.like]: `%${name}%` }
       },
       include: [{ model: genres }, { model: authors }]
     })

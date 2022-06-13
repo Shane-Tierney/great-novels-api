@@ -120,7 +120,7 @@ const booksAuthorsData = [
 ]
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     /**
      * Add altering commands here.
      *
