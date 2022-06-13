@@ -83,12 +83,15 @@ const getAllNovels = async (request, response) => {
 
 const getNovelByIdWithGenresAuthorsPartialMatch = async (request, response) => {
   try {
-    const { name } = request.params
+    const { searchTerm } = request.params
 
     const novelsAuthorsGenres = await books.findOne({
       attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
       where: {
-        id: { [Sequelize.Op.like]: `%${name}%` }
+        [Sequelize.Op.or]: [
+          {title: { [Sequelize.Op.like]: `%${searchTerm}%` }},
+          {id: { [Sequelize.Op.like]: `%${searchTerm}%` } }
+        ]
       },
       include: [{ model: genres }, { model: authors }]
     })
